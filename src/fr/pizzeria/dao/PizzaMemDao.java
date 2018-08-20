@@ -8,7 +8,7 @@ import fr.pizzeria.model.Pizza;
 
 public class PizzaMemDao implements IPizzaDao {
 
-	private List<Pizza> pizzas = new ArrayList<>();
+	private List<Pizza> pizzas = new ArrayList();
 	
 	public PizzaMemDao(){
 		pizzas.add(new Pizza("PEP", "Pépéroni", 12.50));
@@ -66,6 +66,12 @@ public class PizzaMemDao implements IPizzaDao {
 	public boolean pizzaExists(String codePizza) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void initListPizzaFromFile(String path) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

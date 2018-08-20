@@ -3,7 +3,10 @@ package fr.pizzeria.services;
 public class MenuServiceFactory {
 
 	public static MenuService getInstance(int choix){
-		if (choix==1){
+		if (choix==0){
+			return new InitListPizzasService();
+		}
+		else if (choix==1){
 			return new ListerPizzasService();
 		}
 		else if (choix==2){
@@ -11,6 +14,9 @@ public class MenuServiceFactory {
 		}
 		else if (choix==3){
 			return new ModifierPizzaService();
+		}
+		else if (choix==4){
+			return new SupprimerPizzaService();
 		}
 		return null;
 	}

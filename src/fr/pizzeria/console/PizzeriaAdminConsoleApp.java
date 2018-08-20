@@ -3,7 +3,9 @@ package fr.pizzeria.console;
 import java.util.Scanner;
 
 import fr.pizzeria.dao.IPizzaDao;
+import fr.pizzeria.dao.PizzaBaseDao;
 import fr.pizzeria.dao.PizzaMemDao;
+import fr.pizzeria.exception.StockageException;
 import fr.pizzeria.services.MenuService;
 import fr.pizzeria.services.MenuServiceFactory;
 
@@ -13,7 +15,7 @@ public class PizzeriaAdminConsoleApp {
 		
 		
 		/* Initialisation du TDB de pizzas */
-		IPizzaDao dao = new PizzaMemDao();
+		IPizzaDao dao = new PizzaBaseDao();
 		
 		/* Initialisation du scanner */
 		Scanner scanner = new Scanner(System.in);
@@ -22,6 +24,7 @@ public class PizzeriaAdminConsoleApp {
 		/* Structure de répétition de la boucle principale */
 		do {
 			println("***** Pizzeria Administration *****");
+			println("0. Initialiser la liste de pizza ");
 			println("1. Lister les pizzas ");
 			println("2. Ajouter une nouvelle pizza ");
 			println("3. Mettre à jour une pizza ");
@@ -31,9 +34,15 @@ public class PizzeriaAdminConsoleApp {
 			System.out.print("Veuillez choisir une option:");
 			choix = scanner.nextInt();
 			
-			MenuService service = MenuServiceFactory.getInstance(choix);
-			service.executeUC(scanner, dao);
-			
+			if (choix != 99) {
+				MenuService service = MenuServiceFactory.getInstance(choix);
+				try {
+					service.executeUC(scanner, dao);
+				} catch (StockageException e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+				}	
+			}
 		} while(choix!=99);
 		
 		scanner.close();
