@@ -126,12 +126,13 @@ public class PizzaBaseDao implements IPizzaDao {
 			myConnection = DriverManager.getConnection(
 					this.getDriver() + ":" + this.getProtocole() + ":" + this.getUrl(), this.getUser(),
 					this.getPassword());
+			myConnection.setAutoCommit(false);
 			PreparedStatement statment = null;
 
 			statment = myConnection.prepareStatement("DELETE FROM PIZZA WHERE CODE=?");
 			statment.setString(1, codePizza);
 			statment.executeUpdate();
-			
+			myConnection.commit();
 			myConnection.close();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
