@@ -1,6 +1,6 @@
 package fr.pizzeria.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,9 @@ import java.util.Scanner;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
+import org.junit.contrib.java.lang.system.SystemOutRule;
 
 import fr.pizzeria.dao.PizzaMemDao;
-import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.model.Pizza;
 
 public class ListerPizzasServiceTest {
@@ -30,19 +29,22 @@ public class ListerPizzasServiceTest {
 	}
 	
 	@Rule 
-	public TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
+	public SystemOutRule systemInMock=new SystemOutRule() ;
 	
 	@Test
-	public void executeUCTest() throws SavePizzaException {
+	public void executeUCTest(){
 		List<Pizza> lp = providePizzaList();
-		
-		AjouterPizzaService addPizzaService = new AjouterPizzaService();
+		ListerPizzasService listPizzaService = new ListerPizzasService();
 		PizzaMemDao dao = new PizzaMemDao();
+		systemInMock.enableLog();
+
+		listPizzaService.executeUC(new Scanner(System.in), dao);
+		String consoleLogs = systemInMock.getLog();
 		
-		systemInMock.provideLines("VEG", "Végétarienne", "9,5");
-		addPizzaService.executeUC(new Scanner(System.in), dao);
-		
-		List<Pizza> pizzaList = dao.findAllPizzas();
-		assertArrayEquals(lp.toArray(), pizzaList.toArray());
+		boolean contains = consoleLogs.contains("Lister les pizzas");
+		for (Pizza pizza : lp) {
+			contains = contains && consoleLogs.contains(pizza.toString());
+		}
+		assertTrue(contains);	
 	}
 }

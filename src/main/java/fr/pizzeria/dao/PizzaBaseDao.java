@@ -14,15 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.print.attribute.standard.ReferenceUriSchemesSupported;
-
-import com.mysql.jdbc.Buffer;
-
 import fr.pizzeria.exception.DeletePizzaException;
 import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.exception.UpdatePizzaException;
 import fr.pizzeria.model.Pizza;
-import fr.pizzeria.services.SupprimerPizzaService;
 
 public class PizzaBaseDao implements IPizzaDao {
 
@@ -183,7 +178,7 @@ public class PizzaBaseDao implements IPizzaDao {
 	    			statment.setDouble(4, Double.parseDouble(pizzaSlice[3]));
 	    			statment.execute();
 	            }
-
+			br.close();
 			myConnection.close();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

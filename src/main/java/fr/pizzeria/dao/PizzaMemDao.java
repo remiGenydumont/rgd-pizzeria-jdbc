@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.model.Pizza;
 
 public class PizzaMemDao implements IPizzaDao {
 
-	private List<Pizza> pizzas = new ArrayList();
+	private List<Pizza> pizzas = new ArrayList<Pizza>();
 	
 	public PizzaMemDao(){
 		pizzas.add(new Pizza("PEP", "Pépéroni", 12.50));
